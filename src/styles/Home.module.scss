@@ -1,0 +1,16 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at center, rgba(30, 32, 38, 0.7) 0%, rgba(15, 16, 20, 0.95) 100%),
+  url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat;
+}
+
+.container {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  justify-content: center;
+}

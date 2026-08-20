@@ -1,0 +1,22 @@
+:root {
+  --bg-main-start: rgba(30, 32, 38, 0.7);
+  --bg-main-end: rgba(15, 16, 20, 0.95);
+  --bg-card: rgba(30, 32, 38, 0.95);
+  --bg-input: #282a32;
+  --border-color: #3b3e4a;
+  --border-card: rgba(255, 255, 255, 0.1);
+
+  --color-primary: #C8963E;
+  --color-primary-hover: #b38332;
+  --color-primary-alpha-15: rgba(200, 150, 62, 0.15);
+  --color-primary-alpha-25: rgba(200, 150, 62, 0.25);
+  --color-error: #d93838;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a0a5b1;
+  --text-placeholder: #717686;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --transition-fast: 0.2s ease;
+}
