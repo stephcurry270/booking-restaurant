@@ -43,7 +43,22 @@ src/
 
 1. Клонировать репозиторий:
 ```bash
-git clone [https://github.com/your-username/booking-restaurant.git](https://github.com/your-username/booking-restaurant.git)
-cd booking-restaurant
+git clone https://github.com/stephcurry270/booking-restaurant.git
+```
+2. Установить зависимости:
+```bash
+npm install
+```
+3. Запустить проект в режиме разработки:
+```bash
+npm run dev
+```
 
+Приложение будет доступно по адресу: http://localhost:3000
+
+Сборка для продакшена:
+```bash
+npm run build
+npm run start
+```
 
