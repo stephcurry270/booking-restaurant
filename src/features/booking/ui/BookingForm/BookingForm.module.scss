@@ -37,7 +37,7 @@
   display: flex;
   flex-direction: column;
 
-  input, select {
+  input:not([type='checkbox']), select {
     box-sizing: border-box;
     width: 100%;
     padding: 14px 16px;
@@ -80,6 +80,69 @@
   input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(0.7);
     cursor: pointer;
+  }
+}
+
+.label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 6px 4px;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: var(--text-placeholder);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.inputWrapper:focus-within .icon {
+  color: var(--color-primary);
+}
+
+.field input.withIcon {
+  padding-left: 46px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  cursor: pointer;
+
+  input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+  }
+}
+
+.checkboxInvalid input {
+  outline: 2px solid var(--color-error);
+  outline-offset: 2px;
+}
+
+.link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-primary-hover);
   }
 }
 
