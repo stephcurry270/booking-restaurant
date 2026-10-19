@@ -1,6 +1,7 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { BookingFormData, FormErrors } from './types';
+import { useState, ChangeEvent, FocusEvent, FormEvent } from 'react';
+import type { BookingFormData, FormErrors } from './types';
 import { validateBookingForm, validatePhone } from './validation';
+import { formatPhone } from '@/shared/lib/phoneMask';
 
 const INITIAL_STATE: BookingFormData = {
   name: '',
@@ -8,6 +9,7 @@ const INITIAL_STATE: BookingFormData = {
   date: '',
   time: '',
   guests: 1,
+  consent: false,
 };
 
 interface UseBookingFormProps {
@@ -18,27 +20,38 @@ export const useBookingForm = ({ onSubmit }: UseBookingFormProps) => {
   const [formData, setFormData] = useState<BookingFormData>(INITIAL_STATE);
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === 'guests' ? Number(value) : value,
-    }));
-
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const setFieldValue = (name: keyof BookingFormData, value: string | number) => {
+  const setFieldValue = <K extends keyof BookingFormData>(name: K, value: BookingFormData[K]) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
+
+    setErrors((prev) => {
+      if (!prev[name] && !(name === 'date' && prev.time)) return prev;
+
+      const next = { ...prev, [name]: undefined };
+      // Ошибка «время уже прошло» зависит от даты, поэтому сбрасываем её при смене даты
+      if (name === 'date') next.time = undefined;
+      return next;
+    });
+  };
+
+  // Обычные <input>: name, phone, date, consent. Гости и время выбираются через CustomSelect → setFieldValue.
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value, checked } = e.target;
+
+    switch (name) {
+      case 'phone':
+        setFieldValue('phone', formatPhone(value));
+        break;
+      case 'consent':
+        setFieldValue('consent', checked);
+        break;
+      case 'name':
+      case 'date':
+        setFieldValue(name, value);
+        break;
     }
   };
 
-  const handleBlur = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === 'phone') {
       const phoneErr = validatePhone(value);

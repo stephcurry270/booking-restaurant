@@ -4,6 +4,7 @@ export interface BookingFormData {
   date: string;
   time: string;
   guests: number;
+  consent: boolean;
 }
 
 export type BookingStatus = 'idle' | 'loading' | 'success';
@@ -14,4 +15,5 @@ export interface FormErrors {
   date?: string;
   time?: string;
   guests?: string;
+  consent?: string;
 }
