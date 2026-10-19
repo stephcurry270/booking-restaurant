@@ -3,6 +3,9 @@ export const TIME_SLOTS = [
   '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'
 ];
 
+// TODO: заменить на реальную страницу политики (например, '/privacy')
+export const PRIVACY_POLICY_URL = '#';
+
 export interface GuestOption {
   value: number;
   label: string;
