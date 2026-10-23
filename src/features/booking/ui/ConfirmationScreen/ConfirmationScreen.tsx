@@ -32,6 +32,12 @@ export const ConfirmationScreen = ({ bookingData, onReset }: ConfirmationScreenP
                     <span className={styles.label}>Гостей:</span>
                     <span className={styles.value}>{bookingData.guests}</span>
                 </div>
+                {bookingData.tableId !== null && (
+                    <div className={styles.detailItem}>
+                        <span className={styles.label}>Столик:</span>
+                        <span className={styles.value}>№ {bookingData.tableId}</span>
+                    </div>
+                )}
                 <div className={styles.detailItem}>
                     <span className={styles.label}>Дата:</span>
                     <span className={styles.value}>{formatDateRu(bookingData.date)}</span>

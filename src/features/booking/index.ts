@@ -1,3 +1,4 @@
 export { BookingForm } from './ui/BookingForm/BookingForm';
 export { ConfirmationScreen } from './ui/ConfirmationScreen/ConfirmationScreen';
-export type { BookingFormData, BookingStatus } from './model/types';
+export { submitBooking, BookingApiError } from './api/submitBooking';
+export type { BookingFormData, BookingStatus, SubmitResult } from './model/types';

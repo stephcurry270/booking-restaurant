@@ -1,37 +1,37 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import {
   BookingForm,
   ConfirmationScreen,
-  BookingFormData,
-  BookingStatus,
+  BookingApiError,
+  submitBooking,
 } from '@/features/booking';
+import type { BookingFormData, BookingStatus, SubmitResult } from '@/features/booking';
 import styles from '@/styles/Home.module.scss';
 
-const FAKE_REQUEST_DELAY_MS = 1500;
+const NETWORK_ERROR_MESSAGE = 'Не удалось отправить бронь. Проверьте соединение и попробуйте ещё раз.';
 
 export default function HomePage() {
   const [status, setStatus] = useState<BookingStatus>('idle');
   const [bookingData, setBookingData] = useState<BookingFormData | null>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Не оставляем таймер висеть после ухода со страницы
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, []);
-
-  const handleSubmit = (data: BookingFormData) => {
-    if (status === 'loading') return;
-
+  const handleSubmit = async (data: BookingFormData): Promise<SubmitResult> => {
     setStatus('loading');
-    setBookingData(data);
 
-    timerRef.current = setTimeout(() => {
+    try {
+      const booking = await submitBooking(data);
+      // Если выбран «любой свободный», сервер сам назначил столик — показываем его номер
+      setBookingData({ ...data, tableId: booking.tableId });
       setStatus('success');
-      timerRef.current = null;
-    }, FAKE_REQUEST_DELAY_MS);
+      return { ok: true };
+    } catch (error) {
+      setStatus('idle');
+
+      if (error instanceof BookingApiError) {
+        return { ok: false, code: error.code, message: error.message };
+      }
+      return { ok: false, code: 'NETWORK', message: NETWORK_ERROR_MESSAGE };
+    }
   };
 
   const handleReset = () => {

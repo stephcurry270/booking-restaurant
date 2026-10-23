@@ -40,6 +40,9 @@
   input:not([type='checkbox']), select {
     box-sizing: border-box;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 48px;
     padding: 14px 16px;
     background: var(--bg-input);
     border: 1px solid var(--border-color);
@@ -80,6 +83,25 @@
   input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(0.7);
     cursor: pointer;
+  }
+
+  input[type="date"] {
+    display: block;
+    text-align: left;
+  }
+
+  // iOS Safari: нативный date-инпут игнорирует width и центрирует текст,
+  // из-за чего поле вылезает за карточку. Блок применяется только на iOS.
+  @supports (-webkit-touch-callout: none) {
+    input[type="date"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 48px;
+
+      &::-webkit-date-and-time-value {
+        text-align: left;
+      }
+    }
   }
 }
 
@@ -173,4 +195,19 @@
     opacity: 0.6;
     cursor: not-allowed;
   }
+}
+
+.optional {
+  color: var(--text-placeholder);
+}
+
+.submitError {
+  margin: 4px 0 0;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color-error);
+  background: rgba(217, 56, 56, 0.1);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-sm);
 }
