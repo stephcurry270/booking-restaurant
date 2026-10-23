@@ -1,14 +1,15 @@
 import { useId } from 'react';
-import type { BookingFormData, FormErrors } from '../../model/types';
+import type { BookingFormData, FormErrors, SubmitResult } from '../../model/types';
 import { useBookingForm } from '../../model/useBookingForm';
 import { toLocalDateString } from '../../model/dateUtils';
+import { TablePicker } from '../TablePicker/TablePicker';
 import { CustomSelect } from '@/shared/ui/CustomSelect/CustomSelect';
 import { CalendarIcon, ClockIcon, PhoneIcon, UserIcon, UsersIcon } from '@/shared/ui/icons';
 import { GUEST_OPTIONS, PRIVACY_POLICY_URL, TIME_SLOTS } from '@/shared/config/constants';
 import styles from './BookingForm.module.scss';
 
 interface BookingFormProps {
-  onSubmit: (data: BookingFormData) => void;
+  onSubmit: (data: BookingFormData) => Promise<SubmitResult>;
   isLoading: boolean;
 }
 
@@ -18,8 +19,17 @@ const timeOptions = TIME_SLOTS.map((slot) => ({
 }));
 
 export const BookingForm = ({ onSubmit, isLoading }: BookingFormProps) => {
-  const { formData, errors, handleChange, handleBlur, handleSubmit, setFieldValue } =
-      useBookingForm({ onSubmit });
+  const {
+    formData,
+    errors,
+    submitError,
+    tableResetNotice,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+    selectTable,
+  } = useBookingForm({ onSubmit });
 
   const formId = useId();
   const fieldId = (name: keyof BookingFormData) => `${formId}-${name}`;
@@ -152,6 +162,22 @@ export const BookingForm = ({ onSubmit, isLoading }: BookingFormProps) => {
           </div>
 
           <div className={styles.field}>
+          <span id={labelId('tableId')} className={styles.label}>
+            Столик <span className={styles.optional}>(необязательно)</span>
+          </span>
+            <TablePicker
+                id={fieldId('tableId')}
+                labelledBy={labelId('tableId')}
+                date={formData.date}
+                time={formData.time}
+                guests={formData.guests}
+                value={formData.tableId}
+                onChange={selectTable}
+                resetNotice={tableResetNotice}
+            />
+          </div>
+
+          <div className={styles.field}>
             <label
                 className={`${styles.checkbox} ${errors.consent ? styles.checkboxInvalid : ''}`}
             >
@@ -174,6 +200,12 @@ export const BookingForm = ({ onSubmit, isLoading }: BookingFormProps) => {
             </label>
             {renderError('consent')}
           </div>
+
+          {submitError && (
+              <p className={styles.submitError} role="alert">
+                {submitError}
+              </p>
+          )}
 
           <button type="submit" disabled={isLoading} className={styles.submitButton}>
             {isLoading ? 'Бронирую...' : 'Забронировать'}

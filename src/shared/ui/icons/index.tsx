@@ -75,3 +75,17 @@ export const CheckIcon = (props: IconProps) => (
         <polyline points="20 6 9 17 4 12" />
     </IconBase>
 );
+
+export const CloseIcon = (props: IconProps) => (
+    <IconBase {...props}>
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+    </IconBase>
+);
+
+export const MapPinIcon = (props: IconProps) => (
+    <IconBase {...props}>
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+        <circle cx="12" cy="10" r="3" />
+    </IconBase>
+);
