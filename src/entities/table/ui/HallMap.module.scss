@@ -1,0 +1,236 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* На узких экранах схема не сжимается до нечитаемого размера, а прокручивается по горизонтали */
+.scroll {
+  overflow-x: auto;
+  background: rgba(15, 16, 20, 0.45);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  -webkit-overflow-scrolling: touch;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+}
+
+.wall {
+  fill: none;
+  stroke: var(--border-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.zone {
+  fill: none;
+  stroke: var(--border-color);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+
+.zoneLabel {
+  fill: var(--text-placeholder);
+  font-size: 12px;
+}
+
+.sofa {
+  fill: var(--bg-input);
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+
+.bar {
+  fill: var(--bg-input);
+  stroke: var(--border-color);
+  stroke-width: 1.5;
+}
+
+.barLabel {
+  fill: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.stool {
+  fill: var(--border-color);
+}
+
+/* ---------- Столики ---------- */
+
+.table {
+  outline: none;
+}
+
+.shape {
+  fill: var(--bg-input);
+  stroke: var(--border-color);
+  stroke-width: 2;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.chair {
+  fill: var(--border-color);
+  transition: fill 0.2s ease;
+}
+
+.number {
+  fill: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pending {
+  opacity: 0.55;
+}
+
+.free {
+  cursor: pointer;
+}
+
+.free .shape {
+  fill: var(--color-primary-alpha-15);
+  stroke: var(--color-primary);
+}
+
+.free .chair {
+  fill: rgba(200, 150, 62, 0.5);
+}
+
+.free .number {
+  fill: var(--text-primary);
+}
+
+.free:hover .shape {
+  fill: var(--color-primary-alpha-25);
+}
+
+.free:focus-visible .shape {
+  stroke: var(--text-primary);
+  stroke-width: 3;
+}
+
+.selected .shape {
+  fill: var(--color-primary);
+  stroke: var(--color-primary);
+}
+
+.selected .chair {
+  fill: var(--color-primary);
+}
+
+.selected .number {
+  fill: #1b1c21;
+}
+
+.selected:hover .shape {
+  fill: var(--color-primary-hover);
+}
+
+.busy {
+  cursor: not-allowed;
+}
+
+.busy .shape {
+  fill: rgba(40, 42, 50, 0.6);
+  stroke: var(--border-color);
+}
+
+.busy .chair {
+  fill: #2e3039;
+}
+
+.busy .number {
+  fill: var(--text-placeholder);
+}
+
+/* «Мало мест» отличается от «занят» пунктирной обводкой, а не только цветом */
+.tooSmall {
+  cursor: not-allowed;
+}
+
+.tooSmall .shape {
+  fill: transparent;
+  stroke: var(--border-color);
+  stroke-dasharray: 4 3;
+}
+
+.tooSmall .chair {
+  fill: transparent;
+  stroke: var(--border-color);
+  stroke-width: 1;
+}
+
+.tooSmall .number {
+  fill: var(--text-placeholder);
+}
+
+/* ---------- Подсказка (только на узких экранах) ---------- */
+
+.hint {
+  display: none;
+  margin: 0;
+  font-size: 13px;
+  text-align: center;
+  color: var(--text-placeholder);
+}
+
+@media (max-width: 700px) {
+  .hint {
+    display: block;
+  }
+}
+
+/* ---------- Легенда ---------- */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.swatch {
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+}
+
+.swatchFree {
+  background: var(--color-primary-alpha-15);
+  border-color: var(--color-primary);
+}
+
+.swatchSelected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.swatchBusy {
+  background: rgba(40, 42, 50, 0.6);
+}
+
+.swatchSmall {
+  background: transparent;
+  border-style: dashed;
+}
